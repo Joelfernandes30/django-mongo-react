@@ -1,27 +1,31 @@
-# Use official Node.js image
-FROM node:20-alpine
+# ---- Builder stage ----
+FROM node:20-alpine as build
 
-# Set working directory
 WORKDIR /app
 
-# Copy only package files first for cache efficiency
+# Install only the dependencies first for cache efficiency
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy rest of the code
+# Copy the rest of the source code
 COPY . .
 
-# Build production version
+# Set build-time environment variable for backend API (optional, can override below)
+# ARG REACT_APP_API_URL
+# ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
+# Build the React app for production
 RUN npm run build
 
-# Use nginx for static serving
+# ---- Nginx stage ----
 FROM nginx:alpine
-COPY --from=0 /app/build /usr/share/nginx/html
 
-# Optional: custom nginx config for history mode/react-router
+# Copy React build from previous stage to nginx public folder
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Optional: Uncomment if you have a custom nginx config
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]
