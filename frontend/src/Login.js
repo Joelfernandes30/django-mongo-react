@@ -17,7 +17,7 @@ function Login() {
 
 
 try {
-  const res = await fetch(`http://65.2.37.171:8000/api/login/`, {
+  const res = await fetch("http://65.2.37.171:8000/api/login/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
