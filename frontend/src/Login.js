@@ -14,10 +14,10 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     setMsg("");
-const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
 
 try {
-  const res = await fetch(`${API_BASE}/api/login/`, {
+  const res = await fetch(`http://65.2.37.171:8000/api/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)

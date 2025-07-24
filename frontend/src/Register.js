@@ -16,7 +16,7 @@ function Register() {
     setMsg("");
 
     try {
-      const res = await fetch("http://localhost:8000/api/register/", {
+      const res = await fetch("http://65.2.37.171:8000/api/register/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)

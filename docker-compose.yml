@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    image: backend
+    restart: unless-stopped
+    environment:
+      - MONGODB_URI=mongodb+srv://ed-tech:techmiya@cluster0.ofgnlod.mongodb.net/ed-tech?retryWrites=true&w=majority&appName=Cluster0  # Replace with your actual URI!
+      - DJANGO_SECRET_KEY=django-insecure-l0jajyj@ls93j02j@6x2oyj05*8d(++pfp(1%ipa@jmnhl1sqx
+      # Add any additional environment variables as needed
+    ports:
+      - "8000:8000"
+    # No "depends_on" for mongo since using Atlas
+
+  frontend:
+    build:
+      context: ./frontend
+    image: react
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    # Pass REACT_APP_API_URL as needed for production setup
+
+
+
